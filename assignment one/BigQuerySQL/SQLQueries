@@ -1,0 +1,61 @@
+-- select timestamp, longitude, latitude from bigquery-public-data.new_york_mv_collisions.nypd_mv_collisions;
+
+-- select timestamp, longitude, latitude from bigquery-public-data.new_york_mv_collisions.nypd_mv_collisions where longitude is not null and latitude is not null limit 1000;
+
+-- select * from bigquery-public-data.new_york_mv_collisions.nypd_mv_collisions limit 1000;
+
+
+-- create view `uhi-assignment1.assignment_one.weather_2012_to_2020` as
+-- select DATE(CAST(year as INT64), CAST(mo as INT64), CAST(da as INT64)) as date, year, mo, da, temp, dewp, slp, visib, wdsp, mxpsd, gust, max, min, prcp, sndp, fog from bigquery-public-data.noaa_gsod.gsod2012 where stn='725060'
+-- union all
+-- select DATE(CAST(year as INT64), CAST(mo as INT64), CAST(da as INT64)) as date, year, mo, da, temp, dewp, slp, visib, wdsp, mxpsd, gust, max, min, prcp, sndp, fog from bigquery-public-data.noaa_gsod.gsod2013 where stn='725060'
+-- union all
+-- select DATE(CAST(year as INT64), CAST(mo as INT64), CAST(da as INT64)) as date, year, mo, da, temp, dewp, slp, visib, wdsp, mxpsd, gust, max, min, prcp, sndp, fog from bigquery-public-data.noaa_gsod.gsod2014 where stn='725060'and wban='14756'
+-- union all
+-- select DATE(CAST(year as INT64), CAST(mo as INT64), CAST(da as INT64)) as date, year, mo, da, temp, dewp, slp, visib, wdsp, mxpsd, gust, max, min, prcp, sndp, fog from bigquery-public-data.noaa_gsod.gsod2015 where stn='725060'
+-- union all
+-- select DATE(CAST(year as INT64), CAST(mo as INT64), CAST(da as INT64)) as date, year, mo, da, temp, dewp, slp, visib, wdsp, mxpsd, gust, max, min, prcp, sndp, fog from bigquery-public-data.noaa_gsod.gsod2016 where stn='725060'
+-- union all
+-- select DATE(CAST(year as INT64), CAST(mo as INT64), CAST(da as INT64)) as date, year, mo, da, temp, dewp, slp, visib, wdsp, mxpsd, gust, max, min, prcp, sndp, fog from bigquery-public-data.noaa_gsod.gsod2017 where stn='725060'
+-- union all
+-- select DATE(CAST(year as INT64), CAST(mo as INT64), CAST(da as INT64)) as date, year, mo, da, temp, dewp, slp, visib, wdsp, mxpsd, gust, max, min, prcp, sndp, fog from bigquery-public-data.noaa_gsod.gsod2018 where stn='725060'
+-- union all
+-- select DATE(CAST(year as INT64), CAST(mo as INT64), CAST(da as INT64)) as date, year, mo, da, temp, dewp, slp, visib, wdsp, mxpsd, gust, max, min, prcp, sndp, fog from bigquery-public-data.noaa_gsod.gsod2019 where stn='725060'
+-- union all
+-- select DATE(CAST(year as INT64), CAST(mo as INT64), CAST(da as INT64)) as date, year, mo, da, temp, dewp, slp, visib, wdsp, mxpsd, gust, max, min, prcp, sndp, fog from bigquery-public-data.noaa_gsod.gsod2020 where stn='725060'
+-- order by year, mo, da;
+
+
+-- select count(*) from uhi-assignment1.assignment_one.weather_2012_to_2020;
+-- select * from uhi-assignment1.assignment_one.weather_2012_to_2020;
+
+-- create view `uhi-assignment1.assignment_one.collision_data_count` as
+-- select CAST(timestamp as DATE) as collision_date, COUNT(CAST(timestamp as DATE)) as num_collisions
+-- from bigquery-public-data.new_york_mv_collisions.nypd_mv_collisions
+-- group by collision_date;
+
+-- create view `uhi-assignment1.assignment_one.collision_data_count_coords` as
+-- select latitude, longitude, CAST(timestamp as DATE) as collision_date, COUNT(CAST(timestamp as DATE)) as num_collisions
+-- from bigquery-public-data.new_york_mv_collisions.nypd_mv_collisions
+-- group by collision_date, latitude, longitude;
+
+-- create view `uhi-assignment1.assignment_one.collision_data_count_coords_final` as
+-- select FORMAT_DATE("%u", collision_date) as day, collision_date, num_collisions, longitude, latitude
+-- from uhi-assignment1.assignment_one.collision_data_count_coords
+
+-- create view `uhi-assignment1.assignment_one.collision_data_count_final` as
+-- select FORMAT_DATE("%u", collision_date) as day, collision_date, num_collisions
+-- from uhi-assignment1.assignment_one.collision_data_count
+
+-- create view `uhi-assignment1.assignment_one.collated_collision_coords_data` as
+-- select day, year, mo, da, collision_date, temp, dewp, slp, visib, wdsp, mxpsd, gust, max, min, prcp, sndp, fog, num_collisions,longitude, latitude from uhi-assignment1.assignment_one.weather_2012_to_2020 as weather, uhi-assignment1.assignment_one.collision_data_count_coords_final as complaints where complaints.collision_date = weather.date;
+
+-- select * from uhi-assignment1.assignment_one.collated_collision_coords_data;
+-- select * from uhi-assignment1.assignment_one.collated_collision_data;
+-- select * from uhi-assignment1.assignment_one.collision_data_count;
+-- select * from uhi-assignment1.assignment_one.collision_data_count_coords_final;
+-- select * from uhi-assignment1.assignment_one.collision_data_count_final;
+
+—- select * from bigquery-public-data.new_york_mv_collisions.nypd_mv_collisions limit 1000;
+
+-- select * from bigquery-public-data.noaa_gsod.gsod2009 limit 1000;
